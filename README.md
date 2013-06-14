@@ -1,7 +1,7 @@
 obfus-sloc
 ==========
 
-My entry to the International Obfuscated C Code Contest 2012 which did not win.
+My entry to the [International Obfuscated C Code Contest 2012](http://www.ioccc.org/) which did not win.
 
 The following is the attached remarks that I submitted as part of the contest submission package.
 
