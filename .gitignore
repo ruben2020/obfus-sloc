@@ -1,3 +1,7 @@
+*.out
+*~
+prog
+
 # Compiled Object files
 *.slo
 *.lo
