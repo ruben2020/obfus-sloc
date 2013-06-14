@@ -5,7 +5,7 @@ My entry to the [International Obfuscated C Code Contest 2012](http://www.ioccc.
 
 The following is the attached remarks that I submitted as part of the contest submission package.
 
-The actual program is in one file - prog.c
+The actual program is in one file - [prog.c](prog.c)
 
 ## Summary/ Abstract
 
