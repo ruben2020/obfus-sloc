@@ -1,0 +1,172 @@
+clearA
+clearK
+setM
+normalstate:
+readchar
+cmpIsLF
+branch normalLF
+cmpLastIsCR
+branch normalLF
+continueprocessing:
+cmpIsEOF
+branch normalEOF
+cmp /
+branch normalslash
+cmp *
+branch normalast
+cmpIsQuote
+branch quote
+cmp '
+branch singlequote
+cmpIsSpace
+branch normalstate
+cmpIsTab
+branch normalstate
+cmpIsCR
+branch normalstate
+addMToA
+clearM
+goto normalstate
+normalEOF:
+cmpLastIsLF
+branch normalLastLF
+cmpLastIsCR
+branch normalLastLF
+incrK
+normalLastLF:
+return
+normalLF:
+incrK
+setM
+cmpIsLF
+branch normalstate
+goto continueprocessing
+normalslash:
+cmpLast /
+branch gtcppcomment
+goto normalstate
+normalast:
+cmpLast /
+branch gtccomment
+gtnormalstate:
+goto normalstate
+singlequote:
+addMToA
+clearM
+readchar
+cmp '
+branch checkEscapedSingleQuote
+cmpIsEOF
+branch normalEOF
+cmpIsLF
+branch singleQuoteLF
+cmpLastIsCR
+branch singleQuoteLF
+goto singlequote
+checkEscapedSingleQuote:
+cmpLastBackSlash
+goto a1
+blurb "              "
+a1:
+branch checkEscapedSingleQuote2
+gtnormalstate2:
+goto gtnormalstate
+checkEscapedSingleQuote2:
+cmpLastLastBackSlash
+branch gtnormalstate
+goto singlequote
+singleQuoteLF:
+incrK
+setM
+goto singlequote
+gtcppcomment:
+goto cppcomment
+gtnormalEOF:
+goto a2
+blurb "  DEDICATED TO            "
+a2:
+goto normalEOF
+gtnormalstate4:
+goto gtnormalstate2
+goto skip_gtccomment
+gtccomment:
+goto a3
+blurb "  DENNIS RITCHIE (1941-2011)  "
+a3:
+goto ccomment
+skip_gtccomment:
+quote:
+goto a4
+blurb "  CO-INVENTOR OF C AND UNIX   "
+a4:
+addMToA
+clearM
+goto a5
+blurb "                            "
+a5:
+readchar
+cmpIsQuote
+branch checkEscapedQuote
+cmpIsEOF
+branch gtnormalEOF
+cmpIsLF
+branch quoteLF
+cmpLastIsCR
+branch quoteLF
+goto quote
+checkEscapedQuote:
+cmpLastBackSlash
+branch checkEscapedQuote2
+nop
+gtnormalstate3:
+goto gtnormalstate4
+gtnormalEOF2:
+goto gtnormalEOF
+checkEscapedQuote2:
+cmpLastLastBackSlash
+branch gtnormalstate3
+goto quote
+quoteLF:
+incrK
+setM
+goto quote
+cppcomment:
+readchar
+cmpIsLF
+branch cppcommentLF
+cmpLastIsCR
+branch cppcommentLF
+continueprocessing2:
+cmpIsEOF
+branch gtnormalEOF2
+cmpLastIsCR
+branch gtnormalstate3
+goto cppcomment
+cppcommentLF:
+incrK
+setM
+cmpIsLF
+branch gtnormalstate3
+goto continueprocessing2
+ccomment:
+readchar
+cmpIsLF
+branch ccommentLF
+cmpLastIsCR
+branch ccommentLF
+continueprocessing3:
+cmpIsEOF
+branch gtnormalEOF2
+cmp /
+branch ccommentEndCheck
+goto ccomment
+ccommentLF:
+incrK
+setM
+cmpIsLF
+branch ccomment
+goto continueprocessing3
+ccommentEndCheck:
+cmpLast *
+branch gtnormalstate3
+goto ccomment
